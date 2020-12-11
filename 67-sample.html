@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>제목</title>
+    <style>
+      form > div {
+        margin-bottom: 1.5rem;
+      }
+      input:invalid {
+        border: #f44336 solid 2px;
+      }
+      input:invalid + span::before {
+        content: '\2716';
+        margin-left: .2rem;
+      }
+      input:valid + span::before {
+        content: '\2714';
+        margin-left: .2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>데이터 유효성(validation) 검사 테스트 폼(form)</h1>
+    <form action="" method="get">
+      <div>
+        <label for="ko-name">한글 이름 (3~7자) :</label><br />
+        <input type="text" name="ko-name" id="ko-name" pattern="[가-힣]{3,7}" placeholder="예) 손흥민, 김연아" required/>
+        <span></span>
+      </div>
+      <div>
+        <label for="email">이메일 :</label><br />
+        <input type="email" name="email" id="email" required/>
+        <span></span>
+      </div>
+      <div>
+        <label for="pw">비밀번호 (8~15자) :</label><br />
+        <input type="password" name="pw" id="pw" minlength="8" maxlength="15" required/>
+        <span></span>
+      </div>
+      <div>
+        <label for="male">성별 :</label><br />
+        남성<input type="radio" name="gender" id="male" value="male" checked required/>
+        여성<input type="radio" name="gender" value="female"/>
+      </div>
+      <div>
+        <label for="mobile">휴대폰 번호 (선택) :</label><br />
+        <input type="tel" name="mobile" id="mobile" pattern="^010[0-9]{8}$" placeholder="예) 01012345678"/>
+      </div>
+      <div>
+        <input type="submit" value="가입하기"/>
+      </div>
+    </form>
+
+    <script>
+      /**
+       * '한글 이름' 항목의 에러 메시지를 커스터마이즈
+       */
+      const koName = document.getElementById('ko-name');
+
+      koName.addEventListener('invalid', e => {
+        // 필수 항목을 누락한 경우
+        if (koName.validity.valueMissing) {
+          koName.setCustomValidity('한글 이름은 필수 항목입니다.');
+
+        // 지정한 패턴과 미스매치인 경우
+        } else if (koName.validity.patternMismatch) {
+          koName.setCustomValidity('한글로 3~10자를 입력해 주세요.');
+
+        // 데이터 유효성 검사를 통과한 경우
+        } else {
+          koName.setCustomValidity('');
+        }
+      })
+    </script>
+  </body>
+</html>
